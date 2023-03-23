@@ -1,0 +1,483 @@
+local plr = game.Players.LocalPlayer
+
+local letters = {"a","b","c","d","e","f","g","h","i","j","k","l","m","n","o","p","q","r","s","t","u","v","w","x","y","z"}
+
+local ScreenGui = Instance.new("ScreenGui")
+local Frame = Instance.new("Frame")
+local ScrollingFrame = Instance.new("ScrollingFrame")
+local TextBox = Instance.new("TextBox")
+local Buy = Instance.new("TextButton")
+local BuyT = Instance.new("TextLabel")
+local Sell = Instance.new("TextButton")
+local SellT = Instance.new("TextLabel")
+ScreenGui.Parent = game:WaitForChild("CoreGui")
+local nameGen = math.random(10,16)
+local nameGen2 = math.random(10,16)
+local nameGenT = ""
+local nameGenT2 = ""
+local UserInputService = game:GetService("UserInputService")
+for i = 1,nameGen do
+	local uppercase = math.random(1,5)
+	if(uppercase == 2 or uppercase == 4) then
+		nameGenT = nameGenT..string.upper(letters[math.random(1,#letters)])
+	elseif(uppercase == 1 or uppercase == 3) then
+		nameGenT = nameGenT..letters[math.random(1,#letters)]
+	elseif(uppercase == 5) then
+		nameGenT = nameGenT..math.random(1,9)
+	end
+end
+ScreenGui.Name = nameGenT
+for i = 1,nameGen2 do
+	local uppercase = math.random(1,5)
+	if(uppercase == 2 or uppercase == 4) then
+		nameGenT2 = nameGenT2..string.upper(letters[math.random(1,#letters)])
+	elseif(uppercase == 1 or uppercase == 3) then
+		nameGenT2 = nameGenT2..letters[math.random(1,#letters)]
+	elseif(uppercase == 5) then
+		nameGenT2 = nameGenT2..math.random(1,9)
+	end
+end
+ScreenGui.Name = nameGenT
+if(_G.VendingChecker and game.CoreGui:FindFirstChild(_G.VendingChecker)) then game.CoreGui:FindFirstChild(_G.VendingChecker):Destroy() if(game.CoreGui:FindFirstChild(_G.Reserves)) then game.CoreGui[_G.Reserves]:Destroy() end end
+_G.VendingChecker = nameGenT
+_G.Reserves = nameGenT2
+local folder = Instance.new("Folder",game.CoreGui)
+folder.Name = nameGenT2
+local status = "Buy"
+
+ScreenGui.ZIndexBehavior = Enum.ZIndexBehavior.Sibling
+
+Frame.Parent = ScreenGui
+Frame.AnchorPoint = Vector2.new(0.5, 0.5)
+Frame.BackgroundColor3 = Color3.fromRGB(67, 67, 67)
+Frame.BackgroundTransparency = 0.300
+Frame.Position = UDim2.new(0.5, 0, 0.5, 0)
+Frame.Size = UDim2.new(0.5, 0, 0.600000024, 0)
+
+ScrollingFrame.Parent = Frame
+ScrollingFrame.Active = true
+ScrollingFrame.BackgroundColor3 = Color3.fromRGB(67, 67, 67)
+ScrollingFrame.BackgroundTransparency = 0.300
+ScrollingFrame.ClipsDescendants = true
+ScrollingFrame.Position = UDim2.new(0, 1, 0.150000006, 0)
+ScrollingFrame.Size = UDim2.new(1, 0, 0.7, 0)
+ScrollingFrame.CanvasSize = UDim2.new(0, 0, 0, 0)
+
+TextBox.Parent = Frame
+TextBox.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
+TextBox.BackgroundTransparency = 1.000
+TextBox.Size = UDim2.new(1, 0, 0.150000006, 0)
+TextBox.Font = Enum.Font.FredokaOne
+TextBox.PlaceholderColor3 = Color3.fromRGB(120, 120, 120)
+TextBox.PlaceholderText = "Search Item.."
+TextBox.Text = ""
+TextBox.TextColor3 = Color3.fromRGB(255, 255, 255)
+TextBox.TextScaled = true
+TextBox.TextSize = 14.000
+TextBox.TextWrapped = true
+
+Buy.Name = "Buy"
+Buy.Parent = Frame
+Buy.AnchorPoint = Vector2.new(0.200000003, 0.975000024)
+Buy.BackgroundColor3 = Color3.fromRGB(52, 52, 52)
+Buy.BackgroundTransparency = 0.500
+Buy.ClipsDescendants = true
+Buy.Position = UDim2.new(0.200000003, 0, 0.975000024, 0)
+Buy.Size = UDim2.new(0.300000012, 0, 0.100000001, 0)
+Buy.Font = Enum.Font.FredokaOne
+Buy.Text = ""
+Buy.TextColor3 = Color3.fromRGB(255, 255, 255)
+Buy.TextScaled = true
+Buy.TextSize = 14.000
+Buy.TextWrapped = true
+
+BuyT.Name = "BuyT"
+BuyT.Parent = Buy
+BuyT.AnchorPoint = Vector2.new(0, 0.100000001)
+BuyT.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
+BuyT.BackgroundTransparency = 1.000
+BuyT.Position = UDim2.new(0.0500000007, 0, 0.100000001, 0)
+BuyT.Size = UDim2.new(0.899999976, 0, 0.899999976, 0)
+BuyT.Font = Enum.Font.Unknown
+BuyT.Text = "Buy Vendings"
+BuyT.TextColor3 = Color3.fromRGB(255, 255, 255)
+BuyT.TextScaled = true
+BuyT.TextSize = 14.000
+BuyT.TextWrapped = true
+
+Sell.Name = "Sell"
+Sell.Parent = Frame
+Sell.AnchorPoint = Vector2.new(0.800000012, 0.975000024)
+Sell.BackgroundColor3 = Color3.fromRGB(52, 52, 52)
+Sell.BackgroundTransparency = 0.500
+Sell.ClipsDescendants = true
+Sell.Position = UDim2.new(0.800000012, 0, 0.975000024, 0)
+Sell.Size = UDim2.new(0.300000012, 0, 0.100000001, 0)
+Sell.Font = Enum.Font.FredokaOne
+Sell.Text = ""
+Sell.TextColor3 = Color3.fromRGB(255, 255, 255)
+Sell.TextScaled = true
+Sell.TextSize = 14.000
+Sell.TextWrapped = true
+
+SellT.Name = "SellT"
+SellT.Parent = Sell
+SellT.AnchorPoint = Vector2.new(0, 0.100000001)
+SellT.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
+SellT.BackgroundTransparency = 1.000
+SellT.Position = UDim2.new(0.0500000007, 0, 0.100000001, 0)
+SellT.Size = UDim2.new(0.899999976, 0, 0.899999976, 0)
+SellT.Font = Enum.Font.Unknown
+SellT.Text = "Sell Vendings"
+SellT.TextColor3 = Color3.fromRGB(255, 255, 255)
+SellT.TextScaled = true
+SellT.TextSize = 14.000
+SellT.TextWrapped = true
+
+local Frame_2 = Instance.new("Frame")
+local Item = Instance.new("TextLabel")
+local Operation = Instance.new("TextLabel")
+local Money = Instance.new("TextLabel")
+local Amount = Instance.new("TextLabel")
+local TextButton = Instance.new("TextButton")
+local Find = Instance.new("TextLabel")
+
+Frame_2.BackgroundColor3 = Color3.fromRGB(16, 16, 16)
+Frame_2.BackgroundTransparency = 0.400
+Frame_2.Position = UDim2.new(0.0250000004, 0, 0.00999999978, 0)
+Frame_2.Size = UDim2.new(0.949999988, 0, 0, 90)
+
+Item.Name = "Item"
+Item.AnchorPoint = Vector2.new(0.200000003, 0.100000001)
+Item.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
+Item.BackgroundTransparency = 1.000
+Item.Position = UDim2.new(0.200000003, 0, 0.100000001, 0)
+Item.Size = UDim2.new(0.300000012, 0, 0, 40)
+Item.Font = Enum.Font.Unknown
+Item.Text = "Tier 2 Vending Machine"
+Item.TextColor3 = Color3.fromRGB(255, 255, 255)
+Item.TextScaled = true
+Item.TextSize = 14.000
+Item.TextWrapped = true
+Item.TextXAlignment = Enum.TextXAlignment.Left
+
+Operation.Name = "Operation"
+Operation.AnchorPoint = Vector2.new(0.800000012, 0.100000001)
+Operation.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
+Operation.BackgroundTransparency = 1.000
+Operation.Position = UDim2.new(0.800000012, 0, 0.100000001, 0)
+Operation.Size = UDim2.new(0.300000012, 0, 0, 40)
+Operation.Font = Enum.Font.Unknown
+Operation.Text = "Buying"
+Operation.TextColor3 = Color3.fromRGB(255, 255, 255)
+Operation.TextScaled = true
+Operation.TextSize = 14.000
+Operation.TextWrapped = true
+
+Money.Name = "Money"
+Money.AnchorPoint = Vector2.new(0.100000001, 0.899999976)
+Money.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
+Money.BackgroundTransparency = 1.000
+Money.Position = UDim2.new(0.100000001, 0, 0.899999976, 0)
+Money.Size = UDim2.new(0.200000003, 0, 0, 40)
+Money.Font = Enum.Font.Unknown
+Money.Text = "$1000000000"
+Money.TextColor3 = Color3.fromRGB(255, 255, 255)
+Money.TextScaled = true
+Money.TextSize = 14.000
+Money.TextWrapped = true
+
+Amount.Name = "Amount"
+Amount.AnchorPoint = Vector2.new(0.5, 0.899999976)
+Amount.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
+Amount.BackgroundTransparency = 1.000
+Amount.Position = UDim2.new(0.5, 0, 0.899999976, 0)
+Amount.Size = UDim2.new(0.200000003, 0, 0, 40)
+Amount.Font = Enum.Font.Unknown
+Amount.Text = "1"
+Amount.TextColor3 = Color3.fromRGB(255, 255, 255)
+Amount.TextScaled = true
+Amount.TextSize = 14.000
+Amount.TextWrapped = true
+
+TextButton.AnchorPoint = Vector2.new(0.899999976, 0.899999976)
+TextButton.BackgroundColor3 = Color3.fromRGB(0, 85, 0)
+TextButton.Position = UDim2.new(0.899999976, 0, 0.899999976, 0)
+TextButton.Size = UDim2.new(0.300000012, 0, 0, 40)
+TextButton.Font = Enum.Font.Unknown
+TextButton.Text = ""
+TextButton.TextColor3 = Color3.fromRGB(255, 255, 255)
+TextButton.TextScaled = true
+TextButton.TextSize = 14.000
+TextButton.TextWrapped = true
+
+Find.Name = "Money"
+Find.AnchorPoint = Vector2.new(0, 0.100000001)
+Find.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
+Find.BackgroundTransparency = 1.000
+Find.Position = UDim2.new(0.0500000007, 0, 0.100000001, 0)
+Find.Size = UDim2.new(0.899999976, 0, 0.899999976, 0)
+Find.Font = Enum.Font.Unknown
+Find.Text = "Find Vending"
+Find.TextColor3 = Color3.fromRGB(255, 255, 255)
+Find.TextScaled = true
+Find.TextSize = 14.000
+Find.TextWrapped = true
+
+UserInputService.InputBegan:Connect(function(input)
+	if(input.KeyCode == Enum.KeyCode.End) then
+		if(ScreenGui.Enabled) then
+			ScreenGui.Enabled = false
+		else
+			ScreenGui.Enabled = true
+		end
+	end
+end)
+
+local is
+workspace:WaitForChild("Islands")
+wait(1)
+for i,v in pairs(workspace.Islands:GetChildren()) do
+	is = v
+	if(v:FindFirstChild("Owners") and v.Owners:FindFirstChild(plr.UserId)) then
+		break
+	end
+end
+
+function comma(amount)
+	local formatted = amount
+	while true do  
+		formatted, k = string.gsub(formatted, "^(-?%d+)(%d%d%d)", '%1,%2')
+		if (k==0) then
+			break
+		end
+	end
+	return formatted
+end
+
+local buyTable = {}
+local sellTable = {}
+
+is:WaitForChild("Blocks")
+for i,v in pairs(is.Blocks:GetChildren()) do
+	if(v.Name == "vendingMachine1" or v.Name == "vendingMachine" and v:FindFirstChild("SellingContents")) then
+		local itemsInVending = v.SellingContents:GetChildren()
+		local itemInVending = itemsInVending[1]
+		if(itemInVending) then
+			local fr = Frame_2:Clone()
+			fr.Parent = game.CoreGui[_G.Reserves]
+			local it = Item:Clone()
+			it.Parent = fr
+			it.Text = itemInVending.DisplayName.Value
+			local op = Operation:Clone()
+			op.Parent = fr
+			if(v:FindFirstChild("Mode") and v.Mode.Value == 0) then
+				op.Text = "Buying"
+				buyTable[#buyTable+1] = fr
+				fr.Parent = ScrollingFrame
+				local ind = #ScrollingFrame:GetChildren()
+				fr.Position = UDim2.new(0.025,0,0,10+ind*105-105)
+				ScrollingFrame.CanvasSize = UDim2.new(0,0,0,10+ind*105-105)
+			elseif(v:FindFirstChild("Mode") and v.Mode.Value == 1) then
+				op.Text = "Selling"
+				sellTable[#sellTable+1] = fr
+			elseif(v:FindFirstChild("Mode") and v.Mode.Value == 2) then
+				op.Text = "Offline"
+			elseif(not v:FindFirstChild("Mode")) then
+				op.Text = "There was an issue please retry"
+			end
+			local mo = Money:Clone()
+			mo.Parent = fr
+			local vendingMoney = comma(v.CoinBalance.Value)
+			mo.Text = "$"..vendingMoney
+			v.CoinBalance.Changed:Connect(function()
+				local vendingMoney = comma(v.CoinBalance.Value)
+				mo.Text = "$"..vendingMoney
+			end)
+			local am = Amount:Clone()
+			am.Parent = fr
+			am.Text = "Items:"..itemInVending.Amount.Value
+			itemInVending.Amount.Changed:Connect(function()
+				am.Text = "Items:"..itemInVending.Amount.Value
+			end)
+			local btn = TextButton:Clone()
+			btn.Parent = fr
+			local fi = Find:Clone()
+			fi.Parent = btn
+			btn.MouseButton1Down:Connect(function()
+				if(not v:FindFirstChild("SelectionBox") and plr.Character and plr.Character:FindFirstChild("HumanoidRootPart") and v:FindFirstChild("CollisionBoxes")) then
+					local beam = Instance.new("Beam",plr.Character.HumanoidRootPart)
+					beam.Texture = "http://www.roblox.com/asset/?id=5731793240"
+					beam.TextureLength = 2
+					beam.TextureMode = "Static"
+					beam.TextureSpeed = 3
+					beam.Width0 = 2
+					beam.Width1 = 2
+					local att1 = Instance.new("Attachment",plr.Character.HumanoidRootPart)
+					local att2 = Instance.new("Attachment")
+					if(v.CollisionBoxes:FindFirstChild("Part")) then
+						att2.Parent = v.CollisionBoxes.Part
+					elseif(v.CollisionBoxes:FindFirstChild("Root")) then
+						att2.Parent = v.CollisionBoxes.Root
+					end
+					beam.Attachment0 = att1
+					beam.Attachment1 = att2
+					wait(30)
+					beam:Destroy()
+					att1:Destroy()
+					att2:Destroy()
+				end
+			end)
+		end
+	end
+end
+
+is.Blocks.ChildAdded:Connect(function(child)
+	if(child.Name == "vendingMachine1" or child.Name == "vendingMachine" and child:FindFirstChild("SellingContents")) then
+		repeat wait(.5) until child:FindFirstChild("SellingContents") and child:FindFirstChild("Mode") and (child.Mode.Value == 0 or child.Mode.Value == 1) and #child.SellingContents:GetChildren() > 0
+		print("passed")
+		local itemsInVending = child.SellingContents:GetChildren()
+		local itemInVending = itemsInVending[1]
+		if(itemInVending) then
+			local fr = Frame_2:Clone()
+			fr.Parent = game.CoreGui[_G.Reserves]
+			local it = Item:Clone()
+			it.Parent = fr
+			it.Text = itemInVending.DisplayName.Value
+			local op = Operation:Clone()
+			op.Parent = fr
+			if(child:FindFirstChild("Mode") and child.Mode.Value == 0) then
+				op.Text = "Buying"
+				buyTable[#buyTable+1] = fr
+				if(TextBox.Text == "") then
+					fr.Parent = ScrollingFrame
+					local ind = #ScrollingFrame:GetChildren()
+					fr.Position = UDim2.new(0.025,0,0,10+ind*105-105)
+					ScrollingFrame.CanvasSize = UDim2.new(0,0,0,10+ind*105-105)
+				elseif(string.find(string.lower(child.Item.Text),string.lower(TextBox.Text))) then
+					child.Parent = ScrollingFrame
+					local ind = #ScrollingFrame:GetChildren()
+					child.Position = UDim2.new(0.025,0,0,10+ind*105-105)
+					ScrollingFrame.CanvasSize = UDim2.new(0,0,0,10+ind*105-105)
+				end
+			elseif(child:FindFirstChild("Mode") and child.Mode.Value == 1) then
+				op.Text = "Selling"
+				sellTable[#sellTable+1] = fr
+			end
+			local mo = Money:Clone()
+			mo.Parent = fr
+			local vendingMoney = comma(child.CoinBalance.Value)
+			mo.Text = "$"..vendingMoney
+			child.CoinBalance.Changed:Connect(function()
+				local vendingMoney = comma(child.CoinBalance.Value)
+				mo.Text = "$"..vendingMoney
+			end)
+			local am = Amount:Clone()
+			am.Parent = fr
+			am.Text = "Items:"..itemInVending.Amount.Value
+			itemInVending.Amount.Changed:Connect(function()
+				am.Text = "Items:"..itemInVending.Amount.Value
+			end)
+			local btn = TextButton:Clone()
+			btn.Parent = fr
+			local fi = Find:Clone()
+			fi.Parent = btn
+			btn.MouseButton1Down:Connect(function()
+				if(not child:FindFirstChild("SelectionBox") and plr.Character and plr.Character:FindFirstChild("HumanoidRootPart") and child:FindFirstChild("CollisionBoxes")) then
+					local beam = Instance.new("Beam",plr.Character.HumanoidRootPart)
+					beam.Texture = "http://www.roblox.com/asset/?id=5731793240"
+					beam.TextureLength = 2
+					beam.TextureMode = "Static"
+					beam.TextureSpeed = 3
+					beam.Width0 = 2
+					beam.Width1 = 2
+					local att1 = Instance.new("Attachment",plr.Character.HumanoidRootPart)
+					local att2 = Instance.new("Attachment")
+					if(child.CollisionBoxes:FindFirstChild("Part")) then
+						att2.Parent = child.CollisionBoxes.Part
+					elseif(child.CollisionBoxes:FindFirstChild("Root")) then
+						att2.Parent = child.CollisionBoxes.Root
+					end
+					beam.Attachment0 = att1
+					beam.Attachment1 = att2
+					wait(30)
+					beam:Destroy()
+					att1:Destroy()
+					att2:Destroy()
+				end
+			end)
+		end
+	end
+end)
+
+Buy.MouseButton1Down:Connect(function()
+	for i,v in pairs(ScrollingFrame:GetChildren()) do
+		v.Parent = game.CoreGui[_G.Reserves]
+	end
+	for i,v in pairs(buyTable) do
+		if(TextBox.Text == "") then
+			v.Parent = ScrollingFrame
+			local ind = #ScrollingFrame:GetChildren()
+			v.Position = UDim2.new(0.025,0,0,10+ind*105-105)
+			ScrollingFrame.CanvasSize = UDim2.new(0,0,0,10+ind*105-105)
+		else
+			if(string.find(string.lower(v.Item.Text),string.lower(TextBox.Text))) then
+				v.Parent = ScrollingFrame
+				local ind = #ScrollingFrame:GetChildren()
+				v.Position = UDim2.new(0.025,0,0,10+ind*105-105)
+				ScrollingFrame.CanvasSize = UDim2.new(0,0,0,10+ind*105-105)
+			end
+		end
+	end
+	status = "Buy"
+end)
+
+Sell.MouseButton1Down:Connect(function()
+	for i,v in pairs(ScrollingFrame:GetChildren()) do
+		v.Parent = game.CoreGui[_G.Reserves]
+	end
+	for i,v in pairs(sellTable) do
+		if(TextBox.Text == "") then
+			v.Parent = ScrollingFrame
+			local ind = #ScrollingFrame:GetChildren()
+			v.Position = UDim2.new(0.025,0,0,10+ind*105-105)
+			ScrollingFrame.CanvasSize = UDim2.new(0,0,0,10+ind*105-105)
+		else
+			if(string.find(string.lower(v.Item.Text),string.lower(TextBox.Text))) then
+				v.Parent = ScrollingFrame
+				local ind = #ScrollingFrame:GetChildren()
+				v.Position = UDim2.new(0.025,0,0,10+ind*105-105)
+				ScrollingFrame.CanvasSize = UDim2.new(0,0,0,10+ind*105-105)
+			end
+		end
+	end
+	status = "Sell"
+end)
+
+TextBox.Changed:Connect(function()
+	if(TextBox.Text == "") then return end
+	for i,v in pairs(ScrollingFrame:GetChildren()) do
+		v.Parent = game.CoreGui[_G.Reserves]
+		ScrollingFrame.CanvasSize = UDim2.new(0,0,0,0)
+	end
+	if(status == "Buy") then
+		for i,v in pairs(buyTable) do
+			if(string.find(string.lower(v.Item.Text),string.lower(TextBox.Text))) then
+				v.Parent = ScrollingFrame
+				local ind = #ScrollingFrame:GetChildren()
+				v.Position = UDim2.new(0.025,0,0,10+ind*105-105)
+				ScrollingFrame.CanvasSize = UDim2.new(0,0,0,10+ind*105-105)
+			end
+		end
+	end
+	if(status == "Sell") then
+		for i,v in pairs(sellTable) do
+			if(string.find(string.lower(v.Item.Text),string.lower(TextBox.Text))) then
+				v.Parent = ScrollingFrame
+				local ind = #ScrollingFrame:GetChildren()
+				v.Position = UDim2.new(0.025,0,0,10+ind*105-105)
+				ScrollingFrame.CanvasSize = UDim2.new(0,0,0,10+ind*105-105)
+			end
+		end
+	end
+end)
